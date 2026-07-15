@@ -59,7 +59,7 @@ function Index() {
         >
           <MaiaOrb size={260} className="animate-fade-in" />
           <MaiaIntro onFinished={() => {}} />
-          <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground/80 animate-fade-in">
+          <p className="text-xs font-light uppercase tracking-[0.25em] text-muted-foreground/80 animate-fade-in">
             Tryck var som helst för att fortsätta
           </p>
         </button>
