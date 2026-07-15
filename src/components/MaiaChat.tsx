@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowUp, Mic } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
 import { MaiaOrb, type OrbState } from "./MaiaOrb";
+import { sendMaiaMessage } from "@/lib/maia-chat.functions";
 import { cn } from "@/lib/utils";
 
 interface Message {
@@ -9,44 +11,53 @@ interface Message {
   text: string;
 }
 
-const CANNED_REPLIES = [
-  "Intressant fråga. Moltas hade förmodligen svarat med en dålig ordvits här.",
-  "Jag skulle gärna hjälpa dig med det — men just nu är jag mest en väldigt vacker orb.",
-  "Moltas ligger på stranden. Jag gör mitt bästa. Det räcker nog inte, men ändå.",
-  "Bra input. Jag noterar det och glömmer det direkt, precis som Moltas skulle gjort.",
-  "Om jag var en riktig människa hade jag nickat eftertänksamt just nu.",
+const ERROR_REPLIES = [
+  "Oj. Något small i bakhuvudet på mig — kan du testa igen om en sekund?",
+  "Mina små hamsterhjul snurrade fel just nu. En ny försök hade varit uppskattat.",
+  "Där tappade jag tråden helt. Klassiskt AI-move. Prova igen?",
 ];
 
 export function MaiaChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [orbState, setOrbState] = useState<OrbState>("idle");
+  const [busy, setBusy] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const send = useServerFn(sendMaiaMessage);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, orbState]);
 
-  const send = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const value = input.trim();
-    if (!value) return;
+    if (!value || busy) return;
 
     const userMsg: Message = { id: crypto.randomUUID(), role: "user", text: value };
-    setMessages((m) => [...m, userMsg]);
+    const nextMessages = [...messages, userMsg];
+    setMessages(nextMessages);
     setInput("");
+    setBusy(true);
     setOrbState("thinking");
 
-    setTimeout(() => {
+    try {
+      const history = nextMessages.map((m) => ({
+        role: m.role === "user" ? ("user" as const) : ("assistant" as const),
+        content: m.text,
+      }));
+      const { text } = await send({ data: { messages: history } });
       setOrbState("speaking");
-      const reply: Message = {
-        id: crypto.randomUUID(),
-        role: "maia",
-        text: CANNED_REPLIES[Math.floor(Math.random() * CANNED_REPLIES.length)],
-      };
-      setMessages((m) => [...m, reply]);
-      setTimeout(() => setOrbState("idle"), 1600);
-    }, 1200);
+      setMessages((m) => [...m, { id: crypto.randomUUID(), role: "maia", text }]);
+      setTimeout(() => setOrbState("idle"), 1200);
+    } catch (err) {
+      console.error(err);
+      const fallback = ERROR_REPLIES[Math.floor(Math.random() * ERROR_REPLIES.length)];
+      setMessages((m) => [...m, { id: crypto.randomUUID(), role: "maia", text: fallback }]);
+      setOrbState("idle");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -75,7 +86,7 @@ export function MaiaChat() {
       >
         {messages.length === 0 && (
           <div className="mt-6 text-center animate-fade-up">
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg font-light leading-[1.55] text-muted-foreground">
               Fråga mig vad som helst. Jag lovar att svara med samma självförtroende
               som Moltas — men med mindre substans.
             </p>
@@ -92,7 +103,7 @@ export function MaiaChat() {
           >
             <div
               className={cn(
-                "max-w-[85%] rounded-3xl px-5 py-3 text-[15px] leading-[1.55]",
+                "max-w-[85%] rounded-3xl px-5 py-3 text-[15px] font-light leading-[1.55]",
                 m.role === "user"
                   ? "bg-primary text-primary-foreground rounded-br-lg"
                   : "bg-card text-card-foreground rounded-bl-lg border border-border/60",
@@ -108,7 +119,7 @@ export function MaiaChat() {
       {/* Input */}
       <div className="sticky bottom-0 w-full pt-6 pb-6">
         <form
-          onSubmit={send}
+          onSubmit={handleSubmit}
           className="mx-auto flex w-full max-w-2xl items-center gap-2 px-6"
         >
           <div
@@ -119,7 +130,8 @@ export function MaiaChat() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Skriv något till MAIA…"
-              className="flex-1 bg-transparent text-[15px] outline-none placeholder:text-muted-foreground"
+              disabled={busy}
+              className="flex-1 bg-transparent text-[15px] font-light outline-none placeholder:text-muted-foreground disabled:opacity-60"
             />
             <button
               type="button"
@@ -132,11 +144,11 @@ export function MaiaChat() {
             </button>
             <button
               type="submit"
-              disabled={!input.trim()}
+              disabled={!input.trim() || busy}
               aria-label="Skicka"
               className={cn(
                 "grid h-10 w-10 place-items-center rounded-full transition-all",
-                input.trim()
+                input.trim() && !busy
                   ? "bg-primary text-primary-foreground hover:scale-105"
                   : "bg-muted text-muted-foreground",
               )}
