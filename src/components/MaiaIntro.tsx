@@ -27,8 +27,8 @@ export function MaiaIntro({ onFinished }: MaiaIntroProps) {
             key={i}
             className={
               isHeadline
-                ? "text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-foreground"
-                : "text-base sm:text-lg text-muted-foreground leading-relaxed"
+                ? "text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-foreground"
+                : "text-base sm:text-lg text-muted-foreground leading-[1.55]"
             }
           >
             {isCurrent ? (

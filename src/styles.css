@@ -1,7 +1,6 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
-@import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -40,8 +39,8 @@
   --color-orb-turquoise: var(--orb-turquoise);
   --color-orb-pink: var(--orb-pink);
 
-  --font-display: "Geist Variable", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --font-body: "Geist Variable", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-display: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-body: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
 
 :root {
@@ -108,6 +107,7 @@
   body {
     font-family: var(--font-body);
     font-weight: 350;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.014em;
@@ -124,6 +124,12 @@
     font-family: var(--font-display);
     font-weight: 500;
     letter-spacing: -0.032em;
+  }
+
+  .label-versal {
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
   }
 }
 

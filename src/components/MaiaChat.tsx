@@ -61,7 +61,7 @@ export function MaiaChat() {
       </div>
 
       {/* State label */}
-      <p className="mt-4 text-xs uppercase tracking-[0.2em] text-muted-foreground animate-fade-in">
+      <p className="mt-4 text-xs font-light uppercase tracking-[0.2em] text-muted-foreground animate-fade-in">
         {orbState === "idle" && "Redo när du är det"}
         {orbState === "listening" && "Lyssnar"}
         {orbState === "thinking" && "Tänker"}
@@ -92,7 +92,7 @@ export function MaiaChat() {
           >
             <div
               className={cn(
-                "max-w-[85%] rounded-3xl px-5 py-3 text-[15px] leading-relaxed",
+                "max-w-[85%] rounded-3xl px-5 py-3 text-[15px] leading-[1.55]",
                 m.role === "user"
                   ? "bg-primary text-primary-foreground rounded-br-lg"
                   : "bg-card text-card-foreground rounded-bl-lg border border-border/60",
@@ -145,7 +145,7 @@ export function MaiaChat() {
             </button>
           </div>
         </form>
-        <p className="mt-3 text-center text-xs text-muted-foreground/70">
+        <p className="mt-3 text-center text-xs font-light text-muted-foreground/70">
           MAIA kan ha fel. Moltas har också fel, men mer sällan.
         </p>
       </div>
