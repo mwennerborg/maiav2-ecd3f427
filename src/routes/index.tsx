@@ -11,13 +11,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "MAIA är Moltas personliga AI-assistent — designad för att underhålla, hjälpa och hålla ställningarna medan Moltas är på semester.",
+          "MAIA är Moltas personliga AI-assistent — designad för att underhålla, hjälpa och hålla ställningarna medan Moltas är frånvarande.",
       },
       { property: "og:title", content: "MAIA — Moltas Artificial Intelligence Assistant" },
       {
         property: "og:description",
         content:
-          "En elegant personlig AI som ersätter Moltas medan han är på semester. Betydligt billigare än originalet.",
+          "MAIA är Moltas personliga AI-assistent — designad för att underhålla, hjälpa och hålla ställningarna medan Moltas är frånvarande.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
