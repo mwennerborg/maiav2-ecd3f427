@@ -111,7 +111,48 @@ export function MaiaChat() {
               )}
               style={m.role === "maia" ? { boxShadow: "var(--shadow-soft)" } : undefined}
             >
-              {m.text}
+              {m.role === "maia" ? (
+                <div className="maia-markdown">
+                  <ReactMarkdown
+                    components={{
+                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                      ul: ({ children }) => (
+                        <ul className="my-2 list-disc space-y-1 pl-5 last:mb-0">{children}</ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="my-2 list-decimal space-y-1 pl-5 last:mb-0">{children}</ol>
+                      ),
+                      li: ({ children }) => <li className="leading-[1.55]">{children}</li>,
+                      strong: ({ children }) => (
+                        <strong className="font-medium">{children}</strong>
+                      ),
+                      em: ({ children }) => <em className="italic">{children}</em>,
+                      h1: ({ children }) => <p className="mb-2 font-medium">{children}</p>,
+                      h2: ({ children }) => <p className="mb-2 font-medium">{children}</p>,
+                      h3: ({ children }) => <p className="mb-2 font-medium">{children}</p>,
+                      a: ({ children, href }) => (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="underline underline-offset-2"
+                        >
+                          {children}
+                        </a>
+                      ),
+                      code: ({ children }) => (
+                        <code className="rounded bg-muted px-1 py-0.5 text-[13px]">
+                          {children}
+                        </code>
+                      ),
+                    }}
+                  >
+                    {m.text}
+                  </ReactMarkdown>
+                </div>
+              ) : (
+                m.text
+              )}
             </div>
           </div>
         ))}
