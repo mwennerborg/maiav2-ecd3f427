@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowUp, Mic } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
+import ReactMarkdown from "react-markdown";
 import { MaiaOrb, type OrbState } from "./MaiaOrb";
 import { sendMaiaMessage } from "@/lib/maia-chat.functions";
 import { cn } from "@/lib/utils";
