@@ -28,141 +28,132 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Phase = "intro" | "choice" | "voice" | "text";
+type Phase = "intro" | "voice" | "text";
 
 function Index() {
-  // Vill du hoppa över intron och landa direkt på valet (röst/text),
-  // ändra "intro" nedan till "choice".
-  const [phase, setPhase] = useState("intro");
+  const [phase, setPhase] = useState<Phase>("intro");
+  const [showChoice, setShowChoice] = useState(false);
   const [fading, setFading] = useState(false);
 
   const leaveIntro = () => {
-    if (phase !== "intro" || fading) return;
+    if (showChoice || fading) return;
     setFading(true);
-    setTimeout(() => setPhase("choice"), 650);
+    setTimeout(() => setShowChoice(true), 350);
+  };
+
+  const enter = (next: Phase) => {
+    setFading(true);
+    setTimeout(() => {
+      setPhase(next);
+      setFading(false);
+    }, 350);
+  };
+
+  const backToIntro = () => {
+    setFading(true);
+    setTimeout(() => {
+      setPhase("intro");
+      setShowChoice(true);
+      setFading(false);
+    }, 350);
   };
 
   return (
-    
+    <div
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6 transition-opacity duration-300"
+      style={{ opacity: fading ? 0.4 : 1 }}
+    >
       {/* Header */}
-      
-
-
-        
-
-
-          
+      <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-center px-6 py-5">
+        <span className="text-sm font-medium uppercase tracking-[0.25em] text-foreground/80">
           MAIA
-        
+        </span>
+      </header>
 
-
-      
-
-
-
-      {/* Intro */}
+      {/* Intro + val i samma vy */}
       {phase === "intro" && (
-        
-          
-           {}} />
-          
+        <div
+          className="relative z-10 flex w-full max-w-2xl flex-col items-center gap-8 text-center"
+          onClick={leaveIntro}
+        >
+          <MaiaOrb state="idle" size={180} className="animate-fade-in" />
 
+          <div className="space-y-6">
+            <MaiaIntro onFinished={leaveIntro} />
 
-            Tryck var som helst för att fortsätta
-          
+            {!showChoice && (
+              <p className="animate-pulse text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">
+                Tryck var som helst för att fortsätta
+              </p>
+            )}
 
+            {showChoice && (
+              <div className="animate-fade-up space-y-6 pt-2">
+                <div className="space-y-2">
+                  <p className="text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
+                    Hej, jag är MAIA
+                  </p>
+                  <p className="text-base font-light text-muted-foreground sm:text-lg">
+                    Moltas Artificial Intelligence Assistant
+                  </p>
+                </div>
 
-        
-      )}
+                <div className="mx-auto flex w-full max-w-sm gap-3">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      enter("voice");
+                    }}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-4 text-[15px] font-medium text-primary-foreground transition hover:scale-[1.02]"
+                    style={{ boxShadow: "var(--shadow-soft)" }}
+                  >
+                    <Mic className="h-4 w-4" />
+                    Prata med röst
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      enter("text");
+                    }}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-card px-4 py-4 text-[15px] font-medium text-card-foreground transition hover:scale-[1.02]"
+                    style={{ boxShadow: "var(--shadow-soft)" }}
+                  >
+                    <Keyboard className="h-4 w-4" />
+                    Skriv med text
+                  </button>
+                </div>
 
-      {/* Val: röst eller text */}
-      {phase === "choice" && (
-        
-
-
-          
-
-
-          
-
-
-            
-
-
-              Hej, jag är MAIA
-            
-
-
-            
-
-
-              Moltas Artificial Intelligence Assistant
-            
-
-
-          
-
-
-
-          
-
-
-            
-             setPhase("voice")}
-              className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-4 text-[15px] font-medium text-primary-foreground transition hover:scale-[1.02]"
-              style={{ boxShadow: "var(--shadow-soft)" }}
-            >
-              
-              Prata med röst
-            
-             setPhase("text")}
-              className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-4 text-[15px] font-medium text-primary-foreground transition hover:scale-[1.02]"
-              style={{ boxShadow: "var(--shadow-soft)" }}
-            >
-              
-              Skriv med text
-            
-          
-
-
-          
-
-
-            Välj röst — då hör du att det faktiskt låter som Moltas.
-          
-
-
-        
-
-
+                <p className="text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">
+                  Välj röst — då hör du att det faktiskt låter som Moltas.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       )}
 
       {/* Röstläge */}
       {phase === "voice" && (
-        
-
-
-           setPhase("choice")} />
-        
-
-
+        <div className="w-full animate-fade-in">
+          <MaiaVoice onExit={backToIntro} />
+        </div>
       )}
 
       {/* Textläge */}
       {phase === "text" && (
-        
-
-
-           setPhase("choice")}
+        <div className="relative w-full animate-fade-in">
+          <button
+            type="button"
+            onClick={backToIntro}
             className="absolute left-5 top-4 z-10 text-sm font-light text-muted-foreground transition hover:text-foreground"
           >
             ← Byt läge
-          
-          
-        
-
-
+          </button>
+          <MaiaChat />
+        </div>
       )}
-    
+    </div>
   );
 }
