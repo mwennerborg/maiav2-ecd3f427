@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Mic, Keyboard } from "lucide-react";
 import { MaiaOrb } from "@/components/MaiaOrb";
 import { MaiaIntro } from "@/components/MaiaIntro";
 import { MaiaVoice } from "@/components/MaiaVoice";
+import { MaiaChat } from "@/components/MaiaChat";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,48 +28,141 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+type Phase = "intro" | "choice" | "voice" | "text";
+
 function Index() {
-  const [phase, setPhase] = useState<"intro" | "chat">("intro");
+  // Vill du hoppa över intron och landa direkt på valet (röst/text),
+  // ändra "intro" nedan till "choice".
+  const [phase, setPhase] = useState("intro");
   const [fading, setFading] = useState(false);
 
   const leaveIntro = () => {
     if (phase !== "intro" || fading) return;
     setFading(true);
-    setTimeout(() => setPhase("chat"), 650);
+    setTimeout(() => setPhase("choice"), 650);
   };
 
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden">
+    
       {/* Header */}
-      <header className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-center pt-6">
-        <div className="pointer-events-auto flex items-center gap-2 rounded-full border border-border/60 bg-card/60 px-4 py-1.5 backdrop-blur-xl">
-          <span
-            className="inline-block h-2 w-2 rounded-full"
-            style={{ background: "var(--gradient-orb)" }}
-          />
-          <span className="text-sm font-medium tracking-tight">MAIA</span>
-        </div>
-      </header>
+      
 
-      {phase === "intro" ? (
-        <button
-          type="button"
-          onClick={leaveIntro}
-          className="flex min-h-screen w-full cursor-pointer flex-col items-center justify-center gap-10 px-6 pt-24 pb-16 text-left transition-opacity duration-700 focus:outline-none"
-          style={{ opacity: fading ? 0 : 1 }}
-          aria-label="Starta samtal"
-        >
-          <MaiaOrb size={260} className="animate-fade-in" />
-          <MaiaIntro onFinished={() => {}} />
-          <p className="text-xs font-light uppercase tracking-[0.25em] text-muted-foreground/80 animate-fade-in">
+
+        
+
+
+          
+          MAIA
+        
+
+
+      
+
+
+
+      {/* Intro */}
+      {phase === "intro" && (
+        
+          
+           {}} />
+          
+
+
             Tryck var som helst för att fortsätta
-          </p>
-        </button>
-      ) : (
-        <div className="animate-fade-in pt-16">
-          <MaiaVoice />
-        </div>
+          
+
+
+        
       )}
-    </main>
+
+      {/* Val: röst eller text */}
+      {phase === "choice" && (
+        
+
+
+          
+
+
+          
+
+
+            
+
+
+              Hej, jag är MAIA
+            
+
+
+            
+
+
+              Moltas Artificial Intelligence Assistant
+            
+
+
+          
+
+
+
+          
+
+
+            
+             setPhase("voice")}
+              className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-4 text-[15px] font-medium text-primary-foreground transition hover:scale-[1.02]"
+              style={{ boxShadow: "var(--shadow-soft)" }}
+            >
+              
+              Prata med röst
+            
+             setPhase("text")}
+              className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-4 text-[15px] font-medium text-primary-foreground transition hover:scale-[1.02]"
+              style={{ boxShadow: "var(--shadow-soft)" }}
+            >
+              
+              Skriv med text
+            
+          
+
+
+          
+
+
+            Välj röst — då hör du att det faktiskt låter som Moltas.
+          
+
+
+        
+
+
+      )}
+
+      {/* Röstläge */}
+      {phase === "voice" && (
+        
+
+
+           setPhase("choice")} />
+        
+
+
+      )}
+
+      {/* Textläge */}
+      {phase === "text" && (
+        
+
+
+           setPhase("choice")}
+            className="absolute left-5 top-4 z-10 text-sm font-light text-muted-foreground transition hover:text-foreground"
+          >
+            ← Byt läge
+          
+          
+        
+
+
+      )}
+    
   );
 }
