@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { MaiaOrb } from "@/components/MaiaOrb";
 import { MaiaIntro } from "@/components/MaiaIntro";
-import { MaiaChat } from "@/components/MaiaChat";
+import { MaiaVoice } from "@/components/MaiaVoice";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -65,7 +65,7 @@ function Index() {
         </button>
       ) : (
         <div className="animate-fade-in pt-16">
-          <MaiaChat />
+          <MaiaVoice />
         </div>
       )}
     </main>
