@@ -103,11 +103,11 @@ export function useMaiaVoice(options?: { handsFree?: boolean }) {
   const handleUtterance = useCallback(
     async (text: string) => {
       setError(null);
-      historyRef.current = [...historyRef.current, { role: "user", content: text }].slice(-20);
+      historyRef.current = [...historyRef.current, { role: "user" as const, content: text }].slice(-20);
       setState("thinking");
       try {
         const { text: answer } = await send({ data: { messages: historyRef.current } });
-        historyRef.current = [...historyRef.current, { role: "assistant", content: answer }].slice(-20);
+        historyRef.current = [...historyRef.current, { role: "assistant" as const, content: answer }].slice(-20);
         setReply(answer);
         setState("speaking");
         const { audioBase64 } = await tts({ data: { text: answer } });
