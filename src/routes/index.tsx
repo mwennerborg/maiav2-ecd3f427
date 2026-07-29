@@ -78,58 +78,45 @@ function Index() {
         >
           <MaiaOrb state="idle" size={180} className="animate-fade-in" />
 
-          <div className="space-y-6">
-            <MaiaIntro onFinished={leaveIntro} />
+          <div className="space-y-8">
+            <MaiaIntro onFinished={() => setShowChoice(true)} />
 
-            {!showChoice && (
-              <p className="animate-pulse text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">
-                Tryck var som helst för att fortsätta
-              </p>
-            )}
-
-            {showChoice && (
-              <div className="animate-fade-up space-y-6 pt-2">
-                <div className="space-y-2">
-                  <p className="text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
-                    Hej, jag är MAIA
-                  </p>
-                  <p className="text-base font-light text-muted-foreground sm:text-lg">
-                    Moltas Artificial Intelligence Assistant
-                  </p>
-                </div>
-
-                <div className="mx-auto flex w-full max-w-sm gap-3">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      enter("voice");
-                    }}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-4 text-[15px] font-medium text-primary-foreground transition hover:scale-[1.02]"
-                    style={{ boxShadow: "var(--shadow-soft)" }}
-                  >
-                    <Mic className="h-4 w-4" />
-                    Prata med röst
-                  </button>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      enter("text");
-                    }}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-card px-4 py-4 text-[15px] font-medium text-card-foreground transition hover:scale-[1.02]"
-                    style={{ boxShadow: "var(--shadow-soft)" }}
-                  >
-                    <Keyboard className="h-4 w-4" />
-                    Skriv med text
-                  </button>
-                </div>
-
-                <p className="text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">
-                  Välj röst — då hör du att det faktiskt låter som Moltas.
-                </p>
+            <div
+              className={`animate-fade-up space-y-6 transition-opacity duration-500 ${
+                showChoice ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <div className="mx-auto flex w-full max-w-sm gap-3">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    enter("voice");
+                  }}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-4 text-[15px] font-medium text-primary-foreground transition hover:scale-[1.02]"
+                  style={{ boxShadow: "var(--shadow-soft)" }}
+                >
+                  <Mic className="h-4 w-4" />
+                  Prata med röst
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    enter("text");
+                  }}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-card px-4 py-4 text-[15px] font-medium text-card-foreground transition hover:scale-[1.02]"
+                  style={{ boxShadow: "var(--shadow-soft)" }}
+                >
+                  <Keyboard className="h-4 w-4" />
+                  Skriv med text
+                </button>
               </div>
-            )}
+
+              <p className="text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">
+                Välj röst — då hör du att det faktiskt låter som Moltas.
+              </p>
+            </div>
           </div>
         </div>
       )}
