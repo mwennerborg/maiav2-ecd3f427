@@ -29,7 +29,7 @@ export function MaiaIntro({ onFinished }: MaiaIntroProps) {
                 speed={45}
                 onDone={() => {
                   if (i < LINES.length - 1) {
-                    setTimeout(() => setStep((s) => s + 1), 320);
+                    setTimeout(() => setStep((s) => (s === i ? s + 1 : s)), 320);
                   } else {
                     setTimeout(() => onFinished?.(), 600);
                   }
