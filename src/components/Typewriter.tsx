@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface TypewriterProps {
@@ -20,6 +20,8 @@ export function Typewriter({
 }: TypewriterProps) {
   const [shown, setShown] = useState("");
   const [done, setDone] = useState(false);
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
 
   useEffect(() => {
     setShown("");
@@ -33,7 +35,7 @@ export function Typewriter({
         if (i >= text.length) {
           if (interval) clearInterval(interval);
           setDone(true);
-          onDone?.();
+          onDoneRef.current?.();
         }
       }, speed);
     }, startDelay);
@@ -42,7 +44,7 @@ export function Typewriter({
       clearTimeout(start);
       if (interval) clearInterval(interval);
     };
-  }, [text, speed, startDelay, onDone]);
+  }, [text, speed, startDelay]);
 
   return (
     <span
