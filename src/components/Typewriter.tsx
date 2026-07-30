@@ -35,7 +35,7 @@ export function Typewriter({
         if (i >= text.length) {
           if (interval) clearInterval(interval);
           setDone(true);
-          onDone?.();
+          onDoneRef.current?.();
         }
       }, speed);
     }, startDelay);
@@ -44,7 +44,7 @@ export function Typewriter({
       clearTimeout(start);
       if (interval) clearInterval(interval);
     };
-  }, [text, speed, startDelay, onDone]);
+  }, [text, speed, startDelay]);
 
   return (
     <span
