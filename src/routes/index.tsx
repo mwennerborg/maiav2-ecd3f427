@@ -70,6 +70,13 @@ function Index() {
         </span>
       </header>
 
+      <a
+        href="mailto:moltaswennerborg@gmail.com?subject=MAIA%20feedback&body=Hej%20Moltas%2C%0D%0A%0D%0AJag%20vill%20ge%20feedback%20p%C3%A5%20MAIA%3A%0D%0A"
+        className="absolute top-4 right-5 z-20 text-xs font-light text-muted-foreground transition hover:text-foreground"
+      >
+        💬 Feedback
+      </a>
+
       {/* Intro + val i samma vy */}
       {phase === "intro" && (
         <div
@@ -113,9 +120,10 @@ function Index() {
                 </button>
               </div>
 
-              <p className="text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">
-                Välj röst — då hör du att det faktiskt låter som Moltas.
-              </p>
+              <div className="space-y-2 text-xs font-light uppercase tracking-[0.2em] text-muted-foreground">
+                <p>Välj röst — då hör du att det faktiskt låter som Moltas.</p>
+                <p>Röstläge fungerar bäst på dator — kan vara lite svajigt på mobilen.</p>
+              </div>
             </div>
           </div>
         </div>
