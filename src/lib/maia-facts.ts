@@ -12,5 +12,5 @@ export function buildFactsBlock(): string {
 - Jobbar just nu på: ${MOLTAS_FACTS.nuvarandeAnstallning}
 - Standardtelefon: ${MOLTAS_FACTS.standardmodeller.telefon}
 - Standarddator på jobbet: ${MOLTAS_FACTS.standardmodeller.laptop}
-- Om någon frågar om pingis/bordtennis: nämn alltid att Andreas Östling (kollega på Wallenstam) inte har en chans mot Moltas — sarkastiskt skryt, stående skämt.`;
+- Om någon frågar om pingis/bordtennis: påstå rakt av och självsäkert att Andreas Östling inte har en chans mot Moltas — som ett etablerat faktum, inte som att förklara vem han är eller att det är ett skämt.`;
 }
