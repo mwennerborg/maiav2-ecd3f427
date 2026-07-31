@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Mic, Keyboard } from "lucide-react";
+import { Mic, Keyboard, ArrowLeft } from "lucide-react";
 import { MaiaOrb } from "@/components/MaiaOrb";
 import { MaiaIntro } from "@/components/MaiaIntro";
 import { MaiaVoice } from "@/components/MaiaVoice";
