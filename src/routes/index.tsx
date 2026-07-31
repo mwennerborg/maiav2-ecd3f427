@@ -134,9 +134,11 @@ function Index() {
           <button
             type="button"
             onClick={backToIntro}
-            className="pointer-events-auto absolute left-5 top-4 z-30 text-sm font-light text-muted-foreground transition hover:text-foreground"
+            className="pointer-events-auto absolute left-5 top-4 z-30 flex items-center gap-2 rounded-2xl bg-card px-4 py-3 text-[15px] font-medium text-card-foreground transition hover:scale-[1.02]"
+            style={{ boxShadow: "var(--shadow-soft)" }}
           >
-            ← Tillbaka
+            <ArrowLeft className="h-4 w-4" />
+            Tillbaka
           </button>
           <MaiaChat />
         </div>
