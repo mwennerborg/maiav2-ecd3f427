@@ -46,9 +46,9 @@ export function MaiaVoice({ onExit }: { onExit?: () => void }) {
             stop();
             onExit();
           }}
-          className="absolute left-5 top-4 text-sm font-light text-muted-foreground transition hover:text-foreground"
+          className="pointer-events-auto absolute left-5 top-4 z-30 text-sm font-light text-muted-foreground transition hover:text-foreground"
         >
-          ← Avsluta
+          ← Tillbaka
         </button>
       )}
 
