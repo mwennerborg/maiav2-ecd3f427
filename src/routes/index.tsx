@@ -64,7 +64,7 @@ function Index() {
       style={{ opacity: fading ? 0.4 : 1 }}
     >
       {/* Header */}
-      <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-center px-6 py-5">
+      <header className="pointer-events-none absolute top-0 left-0 right-0 z-20 flex items-center justify-center px-6 py-5">
         <span className="text-sm font-medium uppercase tracking-[0.25em] text-foreground/80">
           MAIA
         </span>
@@ -134,9 +134,9 @@ function Index() {
           <button
             type="button"
             onClick={backToIntro}
-            className="absolute left-5 top-4 z-10 text-sm font-light text-muted-foreground transition hover:text-foreground"
+            className="pointer-events-auto absolute left-5 top-4 z-30 text-sm font-light text-muted-foreground transition hover:text-foreground"
           >
-            ← Byt läge
+            ← Tillbaka
           </button>
           <MaiaChat />
         </div>
