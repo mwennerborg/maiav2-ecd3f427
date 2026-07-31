@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { ArrowLeft } from "lucide-react";
 import { MaiaOrb } from "@/components/MaiaOrb";
 import { useMaiaVoice } from "@/hooks/useMaiaVoice";
 
