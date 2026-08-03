@@ -222,7 +222,22 @@ export function useMaiaVoice(options?: { handsFree?: boolean }) {
     else stop();
   }, [startListening, stop]);
 
+  const sendText = useCallback(
+    (text: string) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      try {
+        recRef.current?.abort?.();
+      } catch {}
+      stopMic();
+      activeRef.current = false;
+      setTranscript(trimmed);
+      handleUtterance(trimmed);
+    },
+    [handleUtterance, stopMic],
+  );
+
   useEffect(() => () => stop(), [stop]);
 
-  return { orbState, amplitude, transcript, reply, error, start, stop, toggle };
+  return { orbState, amplitude, transcript, reply, error, start, stop, toggle, sendText };
 }
